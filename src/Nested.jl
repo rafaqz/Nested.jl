@@ -14,7 +14,7 @@ nested_alt(path, fname) = ()
 nested_wrap(T, expressions) = Expr(:tuple, expressions...)
 
 """
-    nested(T, P, path; val, check, alt, wrap) 
+    nested(T, P, path, check, val, alt, wrap) 
 
 Builds an arbitrary expression relating to each nested field in the passed in object. 
 
@@ -29,8 +29,8 @@ Arguments:
 - `T`: the type of the current object
 - `P`: the typoe of the last parent object
 - `path`: the ast path from the original type to the current object. Not sure what else to call this??
-- `val`: a function that returns the expression that gives the value for the field
 - `check`: a a symbol or expression for the function that checks if a field should be included.
+- `val`: a function that returns the expression that gives the value for the field
    this function takes two arguments: struct type and fieldname.
 - `alt`: alternate value if the field is not to be included
 - `wrap`: a function that wraps the expression returned when a struct is parsed, maybe adding a constructor.
