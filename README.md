@@ -13,3 +13,13 @@ time than stucts and tuples.
 This tool is aimed at package developers and provides no user facing functionality.
 
 See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) for an implementation.
+
+Concept:
+- `nested()` runs in Down or Up mode - flattening things or constructing things
+- Tuples and Structs are splatted, or constructed
+- Voids are removed, or reinserted 
+- Units are stripped, or reapplied
+- Numbers and Any are processes with `val()`
+- Other types are yet to be decided. 
+
+You can't write your own methods, this is all hyperpure for `@generated`.
