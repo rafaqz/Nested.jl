@@ -19,29 +19,28 @@ nested_include_all(x, field) = Include()
 nested_val(T, P, path) = path
 "Simples alt function that inserts an empty tuple if the check function fails, to later be splatted out of existence"
 nested_alt(path, fname) = ()
-"Simple wrap function. Wraps all struct field `check` functions in a tuple"
 
 """
-    nested(T, P, path, check, val, alt, wrap)
-
+    nested(T::Type, dir::Union{Up,Down}, path::Union{Symbol,Expr}, check::Union{Symbol,Expr}, val, alt)
 Builds an arbitrary expression built from each nested field in the passed in object.
 
 Arguments:
 - `T`: the type of the current object
 - `P`: the type of the parent object
-- `path`: an expression containing the `.` path from the original type to the current object.
-- `check`: a a symbol or expression for the function that checks if a field should be included.
+- `path`: a symbol or expression containing the `.` path from the original type to the current object.
+
+Optional Arguments:
+- `check`: a symbol or expression for the function that checks if a field should be included.
 - `val`: a function that returns the expression that gives the value for the field
    this function takes two arguments: struct type and fieldname.
-- `alt`: alternate value if the field is not to be included
+- `alt`: a function that returns an alternate value if the field is not to be included
 """
 nested(T::Type, 
-       dir,
-       path::Union{Symbol,Expr}, 
-       check::Union{Symbol,Expr} = :nested_include_all, 
+       dir, 
+       path, 
+       check = :nested_include_all, 
        val = nested_val, 
-       alt = nested_alt 
-      ) = nested(T, Void, dir, path, check, val, alt)
+       alt = nested_alt) = nested(T, Void, dir, path, check, val, alt)
 
 nested(T::Type, P::Type, dir, path, check, val, alt) = begin
     fnames = fieldnames(T)
@@ -57,7 +56,7 @@ nested(T::Type, P::Type, dir, path, check, val, alt) = begin
         )
         push!(expressions, Expr(:..., expr))
     end
-    structwrap(T, expressions)
+    structwrap(T, dir, expressions)
 end
 nested(::Type{T}, P::Type, dir, path, check, val, alt) where T <: Tuple = begin
     expressions = []
