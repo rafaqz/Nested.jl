@@ -55,19 +55,23 @@ nested(T::Type,
 
 nested(T::Type, P::Type, path, check, val, alt, tuplewrap, structwrap) = begin
     fnames = fieldnames(T)
-    expressions = []
-    for (i, fname) in enumerate(fnames)
-        expr = :(
-            if $check($T, $(Expr(:curly, :Val, QuoteNode(fnames[i])))) == Include()
-                $(nested(fieldtype(T, i), T, Expr(:., path, Expr(:quote, fname)), 
-                         check, val, alt, tuplewrap, structwrap))
-            else
-                $(alt(path, fnames[i]))
-            end
-        )
-        push!(expressions, Expr(:..., expr))
+    if length(fnames) > 0
+        expressions = []
+        for (i, fname) in enumerate(fnames)
+            expr = :(
+                if $check($T, $(Expr(:curly, :Val, QuoteNode(fnames[i])))) == Include()
+                    $(nested(fieldtype(T, i), T, Expr(:., path, Expr(:quote, fname)), 
+                             check, val, alt, tuplewrap, structwrap))
+                else
+                    $(alt(path, fnames[i]))
+                end
+            )
+            push!(expressions, Expr(:..., expr))
+        end
+        structwrap(T, expressions)
+    else 
+        Expr(:tuple, val(T, P, path))
     end
-    structwrap(T, expressions)
 end
 nested(::Type{T}, P::Type, path, check, val, alt, tuplewrap, structwrap) where T <: Tuple = begin
     expressions = []
@@ -77,7 +81,5 @@ nested(::Type{T}, P::Type, path, check, val, alt, tuplewrap, structwrap) where T
     end
     tuplewrap(T, expressions)
 end
-nested(::Type{T}, P::Type, path, check, val, args...) where T <: Number = Expr(:tuple, val(T, P, path))
-nested(::Type{Any}, P::Type, path, check, val, args...) = Expr(:tuple, val(Any, P, path))
 
 end # module
