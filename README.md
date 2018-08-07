@@ -7,6 +7,9 @@
 Nested provides an abstraction for developing `@generated` type-stable functions that
 manipulate nested data.
 
+Nested does not currently deconstruct arrays, as these are more difficult to handle at compile
+time than stucts and tuples.
+
 This tool is aimed at package developers and provides no user facing functionality.
 
 See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) for an implementation.
