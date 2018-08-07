@@ -41,7 +41,8 @@ Arguments:
 - `val`: a function that returns the expression that gives the value for the field
    this function takes two arguments: struct type and fieldname.
 - `alt`: alternate value if the field is not to be included
-- `wrap`: a function that wraps the expression returned when a struct is parsed, maybe adding a constructor.
+- `tuplewrap`: a function that wraps the expression returned when a tuple is parsed, maybe adding a constructor, etc.
+- `structwrap`: a function that wraps the expression returned when a struct is parsed, maybe adding a constructor, etc.
 """
 nested(T::Type, 
        path::Union{Symbol,Expr}, 
