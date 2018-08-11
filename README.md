@@ -27,11 +27,11 @@ A simple example that flattens nested structures to tuples:
 ```julia
 using Nested
 
-flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x)))) 
+flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x))))
 flatten_inner(T) = nested(T, :t, flatten_expr, down)
 
-flatten(x::Any) = (x,) 
-flatten(x::Number) = (x,) 
+flatten(x::Any) = (x,)
+flatten(x::Number) = (x,)
 @generated flatten(t) = flatten_inner(t)
 ```
 
@@ -57,16 +57,23 @@ julia> flatten(nestedfoo)
 (1, 2, 3, 4, 5)
 ```
 
+Check how it works:
+
+```julia
+julia> flatten_inner(typeof(nestedfoo))
+:((flatten(getfield(t, :nf))..., flatten(getfield(t, :nb))..., flatten(getfield(t, :nc))...))
+```
+
 Performance:
 
 ```julia
 julia> using BenchmarkTools
-julia> @btime flatten($nestedfoo)                                                                                      
-  1.074 ns (0 allocations: 0 bytes)                                                                                    
-(1, 2, 3, 4, 5)  
+julia> @btime flatten($nestedfoo)
+  1.074 ns (0 allocations: 0 bytes)
+(1, 2, 3, 4, 5)
 
-julia> @code_native flatten(nestedfoo)                                                                                 
-        .text                                                                                                          
+julia> @code_native flatten(nestedfoo)
+        .text
 Filename: REPL[7]
         pushq   %rbp
         movq    %rsp, %rbp
