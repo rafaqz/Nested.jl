@@ -12,25 +12,22 @@ user facing functionality.
 See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) for an implementation.
 
 Prosses:
-- Provide the inner expression that at some point calls your generated function
-  again.
-- Provide some methods for particular types that return a value. These can be
-  overriden at any time as they are not actually inside a generated function.
-- Wrap all method results in a tuple. This allows empty results to be splatted away,
-  and conveniently returns single fields in the same format as structs and
-  tuples.
-- Provide an @generated function that calls nested.
+- Provide inner expressions calls your generated function.
+- Provide methods for particular types.
 - Choose a handler: up constructs things, down flattens things. You can also
-  provide your own handler function if the default up/down functions arenet enough.
+  write your own handler function.
+- Wrap all method results in a tuple. This allows empty results to be splatted
+  away, and returns single fields in the same format as structs and tuples.
+- Provide an @generated function that calls nested.
 
-Done. Functions produced should be type stable and _very_ fast
+Functions produced should be type stable and _very_ fast
 
 A simple example that flattens nested structures to tuples:
 
 ```julia
-flatten_expr(T, path, i::Int) = :(flatten($path[$i]))
-flatten_expr(T, path, fname::Symbol) = :(flatten($path.$fname))
+using Nested
 
+flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x)))) 
 flatten_inner(T) = nested(T, :t, flatten_expr, down)
 
 flatten(x::Any) = (x,) 
