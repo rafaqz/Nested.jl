@@ -2,6 +2,8 @@ __precompile__()
 
 module Nested
 
+using Compat
+
 export nested, up, down 
 
 """
@@ -16,7 +18,7 @@ Arguments:
 - `handler`: function that handles the collected expressions
 """
 
-nested(T::Type, path, exprbuilder, handler) = nested(T, Void, path, exprbuilder, handler)  
+nested(T::Type, path, exprbuilder, handler) = nested(T, Nothing, path, exprbuilder, handler)  
 nested(T::Type, P::Type, path, exprbuilder, handler) = begin
     expressions = []
     for fname in fieldnames(T)
