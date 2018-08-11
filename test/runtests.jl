@@ -5,7 +5,7 @@ else
     using Test
 end
 
-flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x)))) 
+flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x))))) 
 flatten_inner(T) = nested(T, :t, flatten_expr, down)
 
 flatten(x::Any) = (x,) 

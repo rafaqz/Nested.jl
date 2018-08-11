@@ -24,7 +24,7 @@ nested(T::Type, P::Type, path, exprbuilder, handler) = begin
     end
     handler(T, expressions)
 end
-nested(::Type{<:Tuple}, path, handler) = begin
+nested(::Type{<:Tuple}, P::Type, path, handler) = begin
     expressions = []
     for i in 1:length(T.types)
         push!(expressions, Expr(:..., exprbuilder(T, path, i)))
