@@ -26,13 +26,6 @@ nested(T::Type, P::Type, path, exprbuilder, handler) = begin
     end
     handler(T, expressions)
 end
-nested(::Type{<:Tuple}, P::Type, path, handler) = begin
-    expressions = []
-    for i in 1:length(T.types)
-        push!(expressions, Expr(:..., exprbuilder(T, path, i)))
-    end
-    handler(T, expressions)
-end
 
 up(T, expressions) = Expr(:tuple, Expr(:call, :($T.name.wrapper), expressions...))
 up(T::Tuple, expressions) = Expr(:tuple, Expr(:tuple, expressions...))
