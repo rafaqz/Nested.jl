@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/rafaqz/Nested.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/rafaqz/Nested.jl?branch=master)
 [![codecov.io](http://codecov.io/github/rafaqz/Nested.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/Nested.jl?branch=master)
 
-Nested provides an abstraction for developing `@generated` type-stable functions
+Nested provides an abstraction for developing recursive `@generated` functions
 that manipulate nested data. It is aimed at package developers and provides no
 user facing functionality.
 

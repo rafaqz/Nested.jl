@@ -4,7 +4,7 @@ module Nested
 
 using Compat
 
-export nested, up, down
+export nested 
 
 """
     nested(T::Type, dir::Union{Up,Down}, path::Union{Symbol,Expr}, check::Union{Symbol,Expr}, val, alt)
@@ -18,18 +18,15 @@ Arguments:
 - `handler`: function that handles the collected expressions
 """
 
-nested(T::Type, path, exprbuilder, handler) = nested(T, Nothing, path, exprbuilder, handler)
-nested(T::Type, P::Type, path, exprbuilder, handler) = begin
+nested(T::Type, path, expr_builder, handler=default_handler) = nested(T, Nothing, path, expr_builder, handler)
+nested(T::Type, P::Type, path, expr_builder, handler) = begin
     expressions = []
     for fname in fieldnames(T)
-        push!(expressions, Expr(:..., exprbuilder(T, path, fname)))
+        push!(expressions, Expr(:..., expr_builder(T, path, fname)))
     end
     handler(T, expressions)
 end
 
-up(T, expressions) = Expr(:tuple, Expr(:call, :($T.name.wrapper), expressions...))
-up(T::Tuple, expressions) = Expr(:tuple, Expr(:tuple, expressions...))
-
-down(T, expressions) = Expr(:tuple, expressions...)
+default_handler(T, expressions) = Expr(:tuple, expressions...)
 
 end # module
