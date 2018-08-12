@@ -9,7 +9,7 @@ that manipulate nested data. It is aimed at package developers and provides no
 user facing functionality.
 
 
-See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) or [PlotNestted.jl](https://github.com/rafaqz/PlotNested.jl) for an implementation.
+See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) or [PlotNested.jl](https://github.com/rafaqz/PlotNested.jl) for an implementation.
 
 Process:
 - Provide inner expressions calls your generated function.
