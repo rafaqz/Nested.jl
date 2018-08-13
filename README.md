@@ -5,8 +5,7 @@
 [![codecov.io](http://codecov.io/github/rafaqz/Nested.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/Nested.jl?branch=master)
 
 Nested provides an abstraction for developing recursive `@generated` functions
-that manipulate nested data. It is aimed at package developers and provides no
-user facing functionality.
+that manipulate nested data. Its a tiny package but a surprisingly powerful formula.
 
 
 See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) or [PlotNested.jl](https://github.com/rafaqz/PlotNested.jl) for an implementation.
@@ -28,8 +27,6 @@ using Nested
 
 flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x))))
 flatten_inner(T) = nested(T, :t, flatten_expr, down)
-
-flatten(x::Any) = (x,)
 flatten(x::Number) = (x,)
 @generated flatten(t) = flatten_inner(t)
 ```
