@@ -5,22 +5,20 @@
 [![codecov.io](http://codecov.io/github/rafaqz/Nested.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/Nested.jl?branch=master)
 
 Nested provides an abstraction for developing recursive `@generated` functions
-that manipulate nested data. It is aimed at package developers and provides no
-user facing functionality.
+that manipulate nested data. Its a tiny package but a surprisingly powerful formula.
 
 
-See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) for an implementation.
+See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) or [PlotNested.jl](https://github.com/rafaqz/PlotNested.jl) for an implementation.
 
-Prosses:
+Process:
 - Provide inner expressions calls your generated function.
-- Provide methods for particular types.
-- Choose a handler: up constructs things, down flattens things. You can also
-  write your own handler function.
+- Provide methods for particular types you need to handle.
 - Wrap all method results in a tuple. This allows empty results to be splatted
   away, and returns single fields in the same format as structs and tuples.
 - Provide an @generated function that calls nested.
 
-Functions produced should be type stable and _very_ fast
+Functions produced should be type stable and _very_ fast. 
+If you need more to happen to fields than being wrapped in a tuple, write your own handler, again there are examples in Flatten.jl
 
 A simple example that flattens nested structures to tuples:
 
@@ -28,9 +26,7 @@ A simple example that flattens nested structures to tuples:
 using Nested
 
 flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x))))
-flatten_inner(T) = nested(T, :t, flatten_expr, down)
-
-flatten(x::Any) = (x,)
+flatten_inner(T) = nested(T, :t, flatten_expr) # Separated for inspectng code generation
 flatten(x::Number) = (x,)
 @generated flatten(t) = flatten_inner(t)
 ```
