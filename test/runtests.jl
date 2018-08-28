@@ -1,9 +1,5 @@
-using Nested
-@static if VERSION < v"0.7.0-DEV.2005"
-    using Base.Test
-else
-    using Test
-end
+using Nested,
+      Test
 
 flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x)))))
 flatten_inner(T) = nested(T, :t, flatten_expr)

@@ -2,8 +2,6 @@ __precompile__()
 
 module Nested
 
-using Compat
-
 export nested 
 
 """
