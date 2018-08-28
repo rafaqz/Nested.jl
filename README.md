@@ -26,8 +26,8 @@ A simple example that flattens nested structures to tuples:
 using Nested
 
 flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x))))
-flatten_inner(T) = nested(T, :t, flatten_expr) # Separated for inspectng code generation
 flatten(x::Number) = (x,)
+flatten_inner(T) = nested(T, :t, flatten_expr) # Separated for inspectng code generation
 @generated flatten(t) = flatten_inner(t)
 ```
 
