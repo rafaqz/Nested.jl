@@ -11,8 +11,8 @@ that manipulate nested data. Its a tiny package but a surprisingly powerful form
 See [Flatten.jl](https://github.com/rafaqz/Flatten.jl) or [PlotNested.jl](https://github.com/rafaqz/PlotNested.jl) for an implementation.
 
 Process:
-- Provide inner expressions calls your generated function.
-- Provide methods for particular types you need to handle.
+- Provide an expression that calls your generated function.
+- Provide methods for particular types you need to handle. These are outside the @generated function and can be extended by users.
 - Wrap all method results in a tuple. This allows empty results to be splatted
   away, and returns single fields in the same format as structs and tuples.
 - Provide an @generated function that calls nested.
@@ -26,8 +26,8 @@ A simple example that flattens nested structures to tuples:
 using Nested
 
 flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x))))
-flatten_inner(T) = nested(T, :t, flatten_expr) # Separated for inspectng code generation
 flatten(x::Number) = (x,)
+flatten_inner(T) = nested(T, :t, flatten_expr) # Separated for inspectng code generation
 @generated flatten(t) = flatten_inner(t)
 ```
 
