@@ -1,5 +1,3 @@
-__precompile__()
-
 module Nested
 
 export nested 
@@ -17,13 +15,8 @@ Arguments:
 """
 nested(T::Type, path, expr_builder, handler=default_handler) = 
     nested(T, Nothing, path, expr_builder, handler)
-nested(T::Type, P::Type, path, expr_builder, handler) = begin
-    expressions = []
-    for fname in fieldnames(T)
-        push!(expressions, Expr(:..., expr_builder(T, path, fname)))
-    end
-    handler(T, expressions)
-end
+nested(T::Type, P::Type, path, expr_builder, handler) = 
+    handler(T, [Expr(:..., expr_builder(T, path, fn)) for fn in fieldnames(T)])
 
 default_handler(T, expressions) = Expr(:tuple, expressions...)
 
