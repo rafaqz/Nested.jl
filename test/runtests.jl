@@ -1,8 +1,8 @@
 using Nested,
       Test
 
-flatten_expr(T, path, x) = :(flatten(getfield($path, $(QuoteNode(x)))))
-flatten_inner(T) = nested(T, :t, flatten_expr)
+flatten_expr(T, x) = :(flatten(getfield(t, $(QuoteNode(x)))))
+flatten_inner(T) = nested(T, flatten_expr)
 
 flatten(x::Any) = (x,)
 flatten(x::Number) = (x,)
