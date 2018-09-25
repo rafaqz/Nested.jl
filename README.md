@@ -4,6 +4,11 @@
 [![Coverage Status](https://coveralls.io/repos/rafaqz/Nested.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/rafaqz/Nested.jl?branch=master)
 [![codecov.io](http://codecov.io/github/rafaqz/Nested.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/Nested.jl?branch=master)
 
+## This package has been refactored so hard that it barely exists anymore! Maybe just copy and paste the 5 lines of code that are left if you want to use it.
+
+Actually only 3 lines matter, definately the tightest 3 lines I have ever written. I'll leave the package here so the idea is accessible :)
+
+
 Nested provides an abstraction for developing recursive `@generated` functions
 that manipulate nested data. Its a tiny package but a surprisingly powerful formula.
 
